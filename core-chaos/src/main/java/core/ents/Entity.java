@@ -7,6 +7,7 @@ package core.ents;
 
 import java.util.UUID;
 import static core.ents.EntityMap.ALL_ENTITIES;
+import java.time.Instant;
 
 /**
  *
@@ -14,6 +15,7 @@ import static core.ents.EntityMap.ALL_ENTITIES;
  */
 public abstract class Entity {
     private final UUID GID;
+    private final Instant SINCE;
     private String name;
     @SuppressWarnings("")// no leak, REALY!
     public Entity(String name){
@@ -22,9 +24,18 @@ public abstract class Entity {
                     "Entity MUST has a valid name that is not null nor empty.");
         this.name = name;
         this.GID = EntityMap.validRandomGID();
+        this.SINCE = Instant.now();
         ALL_ENTITIES.put(this.GID, this); // we already did the abscent-ID.
     }
+    @core.annots.UnSafe("Exposure only for 'loading' an already saved entities."
+            + "")
+    protected Entity(UUID gid, String name, Instant since){
+        this.GID = gid;
+        this.SINCE = since;
+        this.name = name;
+    }
     public UUID getGid(){return this.GID;}
+    public Instant getSince(){return this.SINCE;}
     public String getName(){return this.name;}
     @Override public int hashCode(){
         return GID.hashCode();
