@@ -28,7 +28,7 @@ public abstract class Entity {
         ALL_ENTITIES.put(this.GID, this); // we already did the abscent-ID.
     }
     @core.annots.UnSafe("Exposure only for 'loading' an already saved entities."
-            + "")
+            + "Child classes can use it, JUST be extra careful there.")
     protected Entity(UUID gid, String name, Instant since){
         this.GID = gid;
         this.SINCE = since;
