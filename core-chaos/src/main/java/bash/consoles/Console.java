@@ -5,6 +5,7 @@
 
 package bash.consoles;
 
+import bash.comds.Commanding;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -40,9 +41,10 @@ public class Console {
             ×\\\\===========================================================//×
             ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
             """;
-    private boolean successful;
+//    private boolean successful;
     private boolean alive;
     private boolean moved;
+    private Commanding commando;
     private int historyIndex = -1;
     private final ArrayList<String> commandHistory = new ArrayList<>();
     private JFrame console;
@@ -104,6 +106,10 @@ public class Console {
         contentPanel.add(Box.createVerticalStrut(10));
         contentPanel.add(clearButton);
     }
+    public void setCommando(Commanding commando){
+        if(commando == null)return;
+        this.commando = commando;
+    }
     private void submitCommand() {
         String input = command.getText().trim();
         if (input.isEmpty())return;
@@ -128,8 +134,7 @@ public class Console {
         }
     }
     private void saveCommand(String input) {
-        if (!successful)return;
-        successful = false;
+        if (!this.commando.execute(input))return;
         if(commandHistory.contains(input))return;
         commandHistory.add(input);
         historyIndex = commandHistory.size();
@@ -140,9 +145,9 @@ public class Console {
      *
      * <p>The command is added to history when it has been marked successful.</p>
      */
-    public void success() {
-        successful = true;
-    }
+//    public void success() {
+//        successful = true;
+//    }
     /**
      * Prints a message followed by a newline.
      *
@@ -441,7 +446,7 @@ public class Console {
         clearButton = null;
         commandHistory.clear();
         historyIndex = -1;
-        successful = false;
+//        successful = false;
         inputs = "";
         alive = false;
         moved = false;

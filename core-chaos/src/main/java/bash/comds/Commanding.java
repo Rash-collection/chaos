@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
  *
  * @author rash4
  */
-public class Commanding implements Commander{
+public abstract class Commanding implements Commander{
     private final CommandTree CMDS;
     private final WeakReference<Console> console;
     protected Commanding(Console cons){
