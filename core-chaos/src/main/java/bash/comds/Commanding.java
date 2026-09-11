@@ -6,27 +6,22 @@
 package bash.comds;
 
 import bash.consoles.Console;
+import java.lang.ref.WeakReference;
 
 /**
  *
  * @author rash4
  */
 public class Commanding implements Commander{
-    /**
-     * <p>
-     * This empty constructor totally depends on the once 
-     * predefined {@code Console} static instance.
-     * </p>
-     * @see     coms.Console#VIRTUAL_CONSOLE
-     */
-//    protected Commanding(){this(Console.VIRTUAL_CONSOLE);}
+    private final CommandTree CMDS;
+    private final WeakReference<Console> console;
     protected Commanding(Console cons){
         this.CMDS = new CommandTree();
-        this.console = cons;
+        this.console = new WeakReference<>(cons);
     }
     @Override public final boolean execute(String command) {
         if(command == null)return false;
-        this.console.println(command);
+        this.getConsole().println(command);
         final var parts = parts(command);
         final String pt1;
         final String remainings = (parts.length > 1) ? parts[1] : null;
@@ -35,7 +30,7 @@ public class Commanding implements Commander{
             pt1 = parts[0].toLowerCase();
             com = this.CMDS.getCom(pt1);
             if(com == null){
-                this.console.println(">> Command not found... \n  - write 'help' to get the main commands list.");
+                this.getConsole().println(">> Command not found... \n  - write 'help' to get the main commands list.");
                 return false;
             }return switch(com){
                 case Command cmd -> cmd.com().execute(remainings);
@@ -59,7 +54,7 @@ public class Commanding implements Commander{
             pt1 = parts[0].toLowerCase();
             com = next.getCom(pt1);
             if(com == null){
-                this.console.println(">> Command not found... \n  - write 'help' to get the main commands list.");
+                this.getConsole().println(">> Command not found... \n  - write 'help' to get the main commands list.");
                 return false;
             }return switch(com){
                 case Command cmd -> cmd.com().execute(remainings);
@@ -74,56 +69,23 @@ public class Commanding implements Commander{
         }
         return false;
     }
-    public boolean fullHelpList(String bleh){
-        this.console.println(">> Current MAIN commands -> list : ");
-        this.CMDS.listHelp("   ", this.console);
-        console.println(">> List-End <<||");
-        return true;
-    }
     public boolean getHelp(String pleh){// for the sake of the method's reference
-        console.println(">> Current MAIN commands -> list : ");
+        getConsole().println(">> Current MAIN commands -> list : ");
         for(String como : this.CMDS.getList()){
-            console.println("  --" + como + ".");
+            getConsole().println("  --" + como + ".");
         }
-        console.println(">> List-End <<||");
+        getConsole().println(">> List-End <<||");
         return true;
     }
     public Commanding addCommand(ComRoot neo, String name){
         if(neo == null || name == null || name.isBlank())return this; // fast escape.
         switch(neo){
-            case CommandTree tree-> this.CMDS.setCom(name, tree);
-            case Command cmd-> this.CMDS.setCom(name, cmd);
+            case CommandTree tree-> this.CMDS.addCommand(name, tree);
+            case Command cmd-> this.CMDS.addCommand(name, cmd);
         }return this;
     }
-    protected Console getConsole(){return this.console;}
-    /**
-     * <p>
-     * Global static function to be used externally (as utility)
-     * whenever or wherever needed.
-     * </p>
-     * <p>
-     * example use :<br>
-     * let's say we've got this statement -> ("give me money"), the 
-     * {@link coms.Commanding#execute(java.lang.String)} gets the first part "give"
-     * as an argument, but it's not removed from the string,
-     * and here comes the use of this {@code parts} function.<br>
-     * inside the recursive call, pass this method as an argument,
-     * and for it's parameter pass the original String.<br>
-     * it will return -> "me money"<br>
-     * then use the "me" part and again return "money"<br>
-     * in general, it's repeated <i>SAFELY</i> even when unexpectedly empty.<br>
-     * after all it depends on the {@code CommandTree}'s branches initialization.
-     * </p>
-     * @param series the String to split into array using white space as splitter.
-     * @return          
-     * <p>
-     * an array of 'words' with the first 'part(word) removed for next recursion.<br>
-     * <b>PS :</b> {@code return ""} aka empty string if null. 
-     * </p>
-     */
+    protected Console getConsole(){return this.console.get();}
     public final static String[] parts(String series){
         return (series == null ? "" : series).trim().split("\\s+", 2);
     }
-    private final CommandTree CMDS;
-    private final Console console;
 }
