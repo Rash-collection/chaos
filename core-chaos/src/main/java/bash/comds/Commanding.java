@@ -69,12 +69,18 @@ public class Commanding implements Commander{
         }
         return false;
     }
-    public boolean getHelp(String pleh){// for the sake of the method's reference
+    public boolean getHelp(String pleh){
         getConsole().println(">> Current MAIN commands -> list : ");
         for(String como : this.CMDS.getList()){
             getConsole().println("  --" + como + ".");
         }
         getConsole().println(">> List-End <<||");
+        return true;
+    }
+    public boolean getCommandsList(String bleh){
+        this.getConsole().println(">> All Commands -> list : ");
+        this.getConsole().println(this.CMDS.treeHelp());
+        this.getConsole().println(">> List-End <<||");
         return true;
     }
     public Commanding addCommand(ComRoot neo, String name){
@@ -85,7 +91,7 @@ public class Commanding implements Commander{
         }return this;
     }
     protected Console getConsole(){return this.console.get();}
-    public final static String[] parts(String series){
+    public static String[] parts(String series){
         return (series == null ? "" : series).trim().split("\\s+", 2);
     }
 }
