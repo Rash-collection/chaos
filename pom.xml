@@ -15,6 +15,17 @@
         An entrprise and systematic engines for a chaotic dev-life, to make dev-life easily productive.
         ..in short, this is rash.life_grand-chaos one MAIN lifetime project.
     </description>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- @Test ;) -->
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.13.4</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <modules>
         <module>core-chaos</module>
     </modules>

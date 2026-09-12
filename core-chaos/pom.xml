@@ -18,4 +18,11 @@
     <description>
         The CORE-API of the whole project, can be interpreted as base for TEMPLATES for other engines of the parent-POM.
     </description>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
