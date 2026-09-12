@@ -19,14 +19,9 @@ public class CoreChaos {
         System.out.println("Hello World!");
         final var conso = new bash.consoles.Console();
         conso.initConsole();
-        final Gor cmd = new Gor(conso);
+        final GoMand cmd = new GoMand(conso);
         conso.setCommando(cmd);
         cmd.addCommand(new CommandTree().setDirectCom(new Command(help->{return cmd.getHelp("");})), "help");
         
-    }
-    static class Gor extends Commanding{
-        public Gor(Console con){
-            super(con);
-        }
     }
 }
