@@ -28,5 +28,6 @@
     </dependencyManagement>
     <modules>
         <module>core-chaos</module>
+        <module>fuck-zone</module>
     </modules>
 </project>
