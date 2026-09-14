@@ -67,6 +67,8 @@ public class Console {
     private void createComponents() {
         strings = new JTextArea();
         strings.setEditable(false);
+        strings.setLineWrap(true);
+        strings.setWrapStyleWord(true);
         strings.setBackground(Color.BLACK);
         strings.setForeground(Color.GREEN);
         strings.setFont(new Font("Monospaced", Font.PLAIN, 14));
