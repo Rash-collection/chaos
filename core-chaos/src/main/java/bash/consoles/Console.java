@@ -41,7 +41,6 @@ public class Console {
             ×\\\\===========================================================//×
             ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
             """;
-//    private boolean successful;
     private boolean alive;
     private boolean moved;
     private Commanding commando;
@@ -142,14 +141,6 @@ public class Console {
         historyIndex = commandHistory.size();
         println(">> Command (" + historyIndex + ") is saved.");
     }
-    /**
-     * Marks the last submitted command as successful.
-     *
-     * <p>The command is added to history when it has been marked successful.</p>
-     */
-//    public void success() {
-//        successful = true;
-//    }
     /**
      * Prints a message followed by a newline.
      *
@@ -417,7 +408,7 @@ public class Console {
         if (console != null || contentPanel == null)return;
         console = new JFrame("Console");
         console.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        console.setSize(640, 480);
+        console.setSize(650, 480);
         console.setLocationRelativeTo(null);
         console.setResizable(true);
         console.setContentPane(contentPanel);
@@ -448,7 +439,6 @@ public class Console {
         clearButton = null;
         commandHistory.clear();
         historyIndex = -1;
-//        successful = false;
         inputs = "";
         alive = false;
         moved = false;
